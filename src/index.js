@@ -19,7 +19,7 @@ import {
 // });
 
 const client = new ApolloClient({
-  uri: "/graphql",
+  uri: "https://mr79ng.sse.codesandbox.io/graphql",
   cache: new InMemoryCache(),  
 });
 
