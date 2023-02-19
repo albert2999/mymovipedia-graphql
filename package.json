@@ -2,7 +2,7 @@
   "name": "mymovipedia-graphql",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://192.168.1.6:3000",
+  "proxy": "https://mr79ng.sse.codesandbox.io",
   "dependencies": {
     "@apollo/client": "^3.7.8",
     "@reduxjs/toolkit": "^1.9.2",
@@ -40,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
   }
 }

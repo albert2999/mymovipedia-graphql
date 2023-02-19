@@ -1,28 +1,32 @@
-import './App.css';
-import { useQuery } from '@apollo/client';
-import { test } from './gql/Query';
+import "./App.css";
+
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+
+import Layout from "./Layout";
+import Movies from "./pages/movies";
+import Actors from "./pages/actors";
 
 
 
 function App() {
-  const {loading, error, data} = useQuery(test)
-  console.log("🚀 ~ file: App.js:10 ~ App ~ loading", loading)
-  console.log("🚀 ~ file: App.js:10 ~ App ~ error", error)
-  console.log("🚀 ~ file: App.js:10 ~ App ~ data", data)
   return (
-    <div className="App">
-      <div>
-      { 
-        data?.movies.map(e => (
-          <>
-          <h1>
-          {e.name}
-          </h1>
-          </>
-          ))
-      }
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/movies" replace />} />
+          <Route path="movies" element={<Movies />} /> 
+        </Route>
+        <Route path="/" element={<Layout />}> 
+          <Route path="actors" element={<Actors />} /> 
+        </Route>
+        {/* <div className=" bg-slate-300">
+          <div>
+            <Navbar />
+          </div>
+        </div> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

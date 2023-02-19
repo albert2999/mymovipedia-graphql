@@ -5,27 +5,23 @@ import App from "./App";
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
-  HttpLink,
+  ApolloProvider, 
 } from "@apollo/client";
 
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://mr79ng.sse.codesandbox.io/graphql',
-    fetchOptions: {
-      mode: 'no-cors'
-    },
-  }),
-  cache: new InMemoryCache(),
-});
-
 // const client = new ApolloClient({
-//   uri: "https://mr79ng.sse.codesandbox.io/graphql",
+//   link: new HttpLink({
+//     uri: 'https://mr79ng.sse.codesandbox.io/graphql',
+//     fetchOptions: {
+//       mode: 'no-cors'
+//     },
+//   }),
 //   cache: new InMemoryCache(),
-//   fetchOptions: {
-//     mode: "no-cors",
-//   },
 // });
+
+const client = new ApolloClient({
+  uri: "/graphql",
+  cache: new InMemoryCache(),  
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
