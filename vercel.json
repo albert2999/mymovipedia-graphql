@@ -1,8 +1,8 @@
 {
     "rewrites": [ 
       {
-        "source": "/proxy/:match*",
-        "destination": "https://mr79ng.sse.codesandbox.io/:match*"
+        "source": "/graphql/:path*",
+        "destination": "https://mr79ng.sse.codesandbox.io/:path*"
       }
     ]
   }
