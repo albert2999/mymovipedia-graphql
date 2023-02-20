@@ -53,7 +53,7 @@ const Movies = () => {
                 />
                 <div className="absolute left-0 top-0 right-0 bottom-0 opacity-40 bg-slate-800 rounded-md"></div>
                 <h1
-                  className={`absolute top-2 left-2 text-white font-semibold text-xl text-center ${centerClass}`}
+                  className={`absolute text-white font-semibold text-xl text-center ${centerClass}`}
                 >
                   {movie.name}
                 </h1>

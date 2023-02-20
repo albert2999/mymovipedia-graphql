@@ -2,7 +2,7 @@
     "rewrites": [ 
       {
         "source": "/graphql/:path*",
-        "destination": "https://mr79ng.sse.codesandbox.io/:path*"
+        "destination": "https://mr79ng.sse.codesandbox.io/graphql"
       }
     ]
   }
