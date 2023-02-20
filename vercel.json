@@ -1,8 +1,8 @@
 {
     "rewrites": [ 
       {
-        "source": "/graphql/:match*",
-        "destination": "https://mr79ng.sse.codesandbox.io/:match*"
+        "source": "/graphql",
+        "destination": "https://mr79ng.sse.codesandbox.io/"
       }
     ]
   }
