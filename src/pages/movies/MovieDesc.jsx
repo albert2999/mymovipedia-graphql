@@ -1,5 +1,12 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Scrollbar } from "swiper";
+
+import 'swiper/css'; 
+import "swiper/css/scrollbar";
+
 import { GET_MOVIE } from "../../gql/Query";
 
 const MovieDesc = ({ movieId }) => {
@@ -9,7 +16,7 @@ const MovieDesc = ({ movieId }) => {
   console.log("🚀 ~ file: MovieDesc.jsx:9 ~ MovieDesc ~ data", data);
 
   return (
-    <div className="p-5">
+    <div className="p-6">
       {error && <> {error} </>}
       {loading && <> Loading... </>}
       {data && (
@@ -30,10 +37,9 @@ const MovieDesc = ({ movieId }) => {
               />
             </svg>
             {data.movie.actor.name}
-          </h1>
-          <hr className=" text-black" />
+          </h1> 
 
-          <p className="mt-2 text-xs indent-10 text-justify">
+          <p className="my-4 text-xs indent-10 text-justify">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
             quaerat perferendis modi aspernatur velit, minus cum. Unde,
             voluptatum animi quos, fugiat at dignissimos tempora labore quam
@@ -47,8 +53,62 @@ const MovieDesc = ({ movieId }) => {
             exercitationem voluptate a, pariatur magnam omnis. Quas corporis
             architecto iusto est veritatis numquam velit nesciunt.
           </p>
+
+          <Swiper
+            slidesPerView={2}
+            grabCursor={true}
+            spaceBetween={20}
+            centeredSlides={true}
+            scrollbar={{
+              hide: true,
+            }}
+            modules={[Scrollbar, Autoplay]}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            loop={true} 
+            className="mySwiper h-fit"
+          >
+            <SwiperSlide>
+              <div className="relative bg-slate-500 rounded-md ">
+                <img
+                  src={`https://source.unsplash.com/random/?movie,${data.movie.name}1`}
+                  alt={"No_Image"}
+                  className="object-cover h-48 w-72 rounded-md"
+                /> 
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="relative bg-slate-500 rounded-md ">
+                <img
+                  src={`https://source.unsplash.com/random/?movie,${data.movie.name}2`}
+                  alt={"No_Image"}
+                  className="object-cover h-48 w-72 rounded-md"
+                /> 
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="relative bg-slate-500 rounded-md ">
+                <img
+                  src={`https://source.unsplash.com/random/?movie,${data.movie.name}3`}
+                  alt={"No_Image"}
+                  className="object-cover h-48 w-72 rounded-md"
+                /> 
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="relative bg-slate-500 rounded-md ">
+                <img
+                  src={`https://source.unsplash.com/random/?movie,${data.movie.name}4`}
+                  alt={"No_Image"}
+                  className="object-cover h-48 w-72 rounded-md"
+                /> 
+              </div>
+            </SwiperSlide>
+          </Swiper>
         </>
-      ) }
+      )}
     </div>
   );
 };

@@ -41,9 +41,9 @@ export const GET_MOVIE = gql`
   }
 `;
 
-export const GET_ACTORS = gql`
-  query {
-    actors {
+export const GET_ACTOR = gql`
+  query GetActor($actorId: ID!) {
+    actor(id: $actorId) {
       id
       name
       age
@@ -52,6 +52,16 @@ export const GET_ACTORS = gql`
         genre
         id
       }
+    }
+  }
+`;
+
+export const GET_ACTORS = gql`
+  query {
+    actors {
+      id
+      name
+      age 
     }
   }
 `;
