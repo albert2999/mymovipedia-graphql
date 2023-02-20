@@ -48,6 +48,7 @@ const ActorDesc = ({ actorId }) => {
           <Swiper
             slidesPerView={2}
             grabCursor={true}
+            cache={false}
             spaceBetween={20}
             centeredSlides={true}
             scrollbar={{

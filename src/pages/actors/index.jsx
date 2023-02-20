@@ -43,7 +43,7 @@ const Actors = () => {
     <>
       {data && (
         <div className="container mx-auto lg:flex">
-          <div className="grid grid-cols-1 overflow-y-auto mx-auto my-2 px-10">
+          <div className="grid grid-cols-1 overflow-y-auto mr-auto my-2 px-10">
             {actors?.map((actor) => (
               <div
                 className="relative cursor-pointer hover:bg-slate-200 rounded-md "
