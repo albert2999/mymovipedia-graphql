@@ -36,7 +36,7 @@ const ActorDesc = ({ actorId }) => {
   }, [actorId]);
 
   return (
-    <div className=" pr-2 overflow-y-auto h-[45vh] lg:h-[80vh]" style={{}}>
+    <div className=" pr-2 overflow-y-auto h-[45vh] lg:h-[80vh]" >
       {error && <> {error} </>}
       {loading && <>
       <DescSkeleton/>
@@ -87,8 +87,7 @@ const ActorDesc = ({ actorId }) => {
           {isRender ? (
             <Swiper
               slidesPerView={data.actor.movies.length < 3 ? 1 : 2}
-              grabCursor={true}
-              cache={false}
+              grabCursor={true} 
               spaceBetween={20}
               centeredSlides={true}
               scrollbar={{
