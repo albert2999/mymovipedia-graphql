@@ -13,6 +13,8 @@ const Actors = () => {
   const [filtered, setFiltered] = useState([]);
   const [isSelected, setIsSelected] = useState();
 
+  const skletonList = [1,2,3,4,5,6,];
+
   const fetchRequest = async (keyword) => {
     const datas = await fetch(
       `https://api.unsplash.com/search/photos?page=1&query=${keyword},person&per_page=2&client_id=${Access_Key}`
@@ -24,7 +26,6 @@ const Actors = () => {
   };
 
   useEffect(() => {
-    
     if (data) {
       (async () => {
         let appendUrl = await Promise.all(
@@ -38,7 +39,7 @@ const Actors = () => {
         setActors([...appendUrl]);
         setFiltered([...appendUrl]);
       })();
-    } 
+    }
   }, [data]);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const Actors = () => {
 
   return (
     <>
-      {data && (
+      {data &&(
         <div className="container mx-auto lg:flex">
           <div className="grid grid-cols-2 w-full overflow-y-auto  my-2 px-10">
             {/* search bar */}
@@ -133,7 +134,35 @@ const Actors = () => {
         </div>
       )}
 
-      {loading && <div>Loading...</div>}
+      {loading && <div className="container mx-auto lg:flex">
+          <div className="grid grid-cols-2 w-full overflow-y-auto  my-2 px-10">
+            {/* search bar */}
+            <div className="animate-pulse h-fit col-span-2 p-8 lg:max-h-screen bg-slate-400 rounded-md  mb-3 max-w-full">
+              
+            </div>
+
+            {skletonList?.map((val) => (
+              <div
+                className="relative col-span-2 cursor-pointer rounded-md " 
+                key={val}
+              >
+                <div className="flex items-center space-x-6 p-6">
+                  <div className="animate-pulse relative bg-slate-400  h-24 w-24 rounded-full ">
+                  </div>
+                  <div className="animate-pulse relative mx-auto sm:mx-0 rounded-md text-slate-400">
+                    <h2 className="animate-bounce font-semibold text-xl">Loading...</h2>
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+          {/* side section popup information */}
+          <div className="animate-pulse h-36 w-full p-3 lg:max-h-screen bg-slate-400 rounded-md sticky bottom-0 left-0 lg:top-6 max-w-full lg:max-w-md z-20">
+          </div>
+        </div>}
+
       {error && <div>Something Wrong...</div>}
     </>
   );

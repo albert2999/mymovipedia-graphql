@@ -4,10 +4,12 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Scrollbar } from "swiper";
 
-import 'swiper/css'; 
+import "swiper/css";
 import "swiper/css/scrollbar";
 
 import { GET_MOVIE } from "../../gql/Query";
+import DescSkeleton from "../../components/DescSkeleton";
+
 
 const MovieDesc = ({ movieId }) => {
   const { loading, error, data } = useQuery(GET_MOVIE, {
@@ -16,9 +18,13 @@ const MovieDesc = ({ movieId }) => {
   console.log("🚀 ~ file: MovieDesc.jsx:9 ~ MovieDesc ~ data", data);
 
   return (
-    <div className=" pr-2 overflow-y-auto h-[45vh] lg:h-[80vh]">
+    <div className=" pr-2 overflow-y-auto h-[45vh] lg:h-[70vh]">
       {error && <> {error} </>}
-      {loading && <> Loading... </>}
+      {loading && (
+        <>
+          <DescSkeleton/>
+        </>
+      )}
       {data && (
         <>
           <h1 className=" font-semibold text-2xl">{data.movie.name}</h1>
@@ -37,7 +43,7 @@ const MovieDesc = ({ movieId }) => {
               />
             </svg>
             {data.movie.actor.name}
-          </h1> 
+          </h1>
 
           <p className="my-4 text-xs indent-10 text-justify">
             Lirem ipsum dilir sit amet cinsectetur adipisicing elit. Quis
@@ -62,16 +68,15 @@ const MovieDesc = ({ movieId }) => {
             ifficiis recusandae architecti repellendus awet. Cuw autew incidunt
             architecti cirrupti willitia veri iptii, nisi, quis asperiires
             exercitatiinew viluptate a, pariatur wagnaw iwnis. Quas cirpiris
-            architecti iusti est veritatis nuwquaw velit nesciunt.
-            nesciunt est! Distinctii, dilires siwilique. Viluptas ipsa saepe,
-            laudantiuw labiruw at pirri sit ab aperiaw quid pissiwus iure
-            perferendis asperiires in excepturi viluptatuw velit accusawus rew
-            ifficiis recusandae architecti repellendus awet. Cuq auteq incidunt
+            architecti iusti est veritatis nuwquaw velit nesciunt. nesciunt est!
+            Distinctii, dilires siwilique. Viluptas ipsa saepe, laudantiuw
+            labiruw at pirri sit ab aperiaw quid pissiwus iure perferendis
+            asperiires in excepturi viluptatuw velit accusawus rew ifficiis
+            recusandae architecti repellendus awet. Cuq auteq incidunt
             architecti cirrupti qillitia veri iptii, nisi, quis asperiires
             exercitatiineq viluptate a, pariatur qagnaq iqnis. Quas cirpiris
             architecti iusti est veritatis nuqquaw velit nesciunt.
           </p>
-          
 
           <Swiper
             slidesPerView={2}
@@ -86,7 +91,7 @@ const MovieDesc = ({ movieId }) => {
               delay: 2500,
               disableOnInteraction: false,
             }}
-            loop={true} 
+            loop={true}
             className="mySwiper h-fit"
           >
             <SwiperSlide>
@@ -95,7 +100,7 @@ const MovieDesc = ({ movieId }) => {
                   src={`https://source.unsplash.com/random/?movie,${data.movie.name}1`}
                   alt={"No_Image"}
                   className="object-cover h-48 w-72 rounded-md"
-                /> 
+                />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -104,7 +109,7 @@ const MovieDesc = ({ movieId }) => {
                   src={`https://source.unsplash.com/random/?movie,${data.movie.name}2`}
                   alt={"No_Image"}
                   className="object-cover h-48 w-72 rounded-md"
-                /> 
+                />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -113,7 +118,7 @@ const MovieDesc = ({ movieId }) => {
                   src={`https://source.unsplash.com/random/?movie,${data.movie.name}3`}
                   alt={"No_Image"}
                   className="object-cover h-48 w-72 rounded-md"
-                /> 
+                />
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -122,7 +127,7 @@ const MovieDesc = ({ movieId }) => {
                   src={`https://source.unsplash.com/random/?movie,${data.movie.name}4`}
                   alt={"No_Image"}
                   className="object-cover h-48 w-72 rounded-md"
-                /> 
+                />
               </div>
             </SwiperSlide>
           </Swiper>

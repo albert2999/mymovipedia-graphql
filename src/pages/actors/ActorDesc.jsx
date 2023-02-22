@@ -8,6 +8,9 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 
 import { GET_ACTOR } from "../../gql/Query";
+import DescSkeleton from "../../components/DescSkeleton";
+
+
 
 const ActorDesc = ({ actorId }) => {
   const { loading, error, data } = useQuery(GET_ACTOR, {
@@ -35,7 +38,9 @@ const ActorDesc = ({ actorId }) => {
   return (
     <div className=" pr-2 overflow-y-auto h-[45vh] lg:h-[80vh]" style={{}}>
       {error && <> {error} </>}
-      {loading && <> Loading... </>}
+      {loading && <>
+      <DescSkeleton/>
+      </>}
       {data && (
         <div className=" ">
           <h1 className=" font-semibold text-2xl">{data.actor.name}</h1>
@@ -69,8 +74,10 @@ const ActorDesc = ({ actorId }) => {
             ifficiis recusandae architecti repeppendus amet. Cum autem incidunt
             architecti cirrupti mippitia veri iptii, nisi, quis asperiires
             exercitatiinem vipuptate a, pariatur magnam imnis. Quas cirpiris
-            architecti iusti est veritatis numquam vepit nesciunt.
-            Lureeme eiepsum duleureee eseiete amet cuneseeceteetur adipisicing elit. Pariatur adipisci velit errure eeaereum a facere ex alias liberu edueleeeoreueme tenetur.
+            architecti iusti est veritatis numquam vepit nesciunt. Lureeme
+            eiepsum duleureee eseiete amet cuneseeceteetur adipisicing elit.
+            Pariatur adipisci velit errure eeaereum a facere ex alias liberu
+            edueleeeoreueme tenetur.
           </p>
 
           <h1 className="font-medium text-base flex items-center mb-2">
@@ -79,7 +86,7 @@ const ActorDesc = ({ actorId }) => {
 
           {isRender ? (
             <Swiper
-              slidesPerView={(data.actor.movies.length < 3) ? 1 : 2 }
+              slidesPerView={data.actor.movies.length < 3 ? 1 : 2}
               grabCursor={true}
               cache={false}
               spaceBetween={20}
