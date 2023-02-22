@@ -8,7 +8,9 @@ const Movies = () => {
   const Access_Key = "Ikji6ii2qlUEdVpTnQB22JcEJrLG83AkgFagnfQ3XXI";
   const { loading, error, data } = useQuery(GET_MOVIES);
 
+  const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [isSelected, setIsSelected] = useState();
 
   const fetchRequest = async (keyword) => {
@@ -24,19 +26,34 @@ const Movies = () => {
   useEffect(() => {
     if (data) {
       (async () => {
-        setMovies(
-          await Promise.all(
-            data?.movies.map(async (e) => {
-              return {
-                ...e,
-                url: await fetchRequest(e.name),
-              };
-            })
-          )
+        let appendUrl = await Promise.all(
+          data?.movies.map(async (e) => {
+            return {
+              ...e,
+              url: await fetchRequest(e.name),
+            };
+          })
         );
+        setMovies([...appendUrl]);
+        setFiltered([...appendUrl]);
       })();
     }
   }, [data]);
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      const filtering = movies.filter((obj) =>
+        JSON.stringify(Object.values(obj))
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+      setFiltered(filtering);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, [search, movies]);
 
   const centerClass = "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
   return (
@@ -44,16 +61,46 @@ const Movies = () => {
       {data && (
         <div className="container mx-auto lg:flex">
           <div className="grid grid-cols-1 xl:grid-cols-2 overflow-y-auto mx-auto my-2 px-10">
-            {movies?.map((movie) => (
+            {/* search bar */}
+            <div className="h-fit col-span-2 p-3 lg:max-h-screen bg-slate-200 rounded-md  mb-3 max-w-full">
+              <div className="relative block">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <input
+                  placeholder="Cari sesuatu yang anda inginkan!"
+                  className="w-full h-10 p-2 rounded-md bg-slate-100 outline-none  block pl-10"
+                  type="text"
+                  name="search"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+
+            {filtered?.map((movie) => (
               <div
-                className="relative cursor-pointer hover:bg-slate-200 rounded-md "
+                className=" col-span-2 xl:col-span-1 relative cursor-pointer hover:bg-slate-200 rounded-md "
                 onClick={() => setIsSelected(movie.id)}
+                key={movie.id}
               >
-                <div className="bg-amber-500 bg-opacity-50 hidden sm:absolute top-6 right-6 p-1 rounded-md z-10 text-white md:text-black">
+                <div className="bg-amber-500 bg-opacity-50 hidden sm:block absolute top-6 right-6 p-1 rounded-md z-10 text-white md:text-black">
                   <h2 className="font-semibold text-sm ">{movie.genre}</h2>
                 </div>
 
-                <div className="flex space-x-6 p-6" key={movie.id}>
+                <div className="flex space-x-6 p-6">
                   <div className="relative mx-auto sm:mx-0 rounded-md ">
                     <img
                       src={movie.url}
@@ -70,16 +117,16 @@ const Movies = () => {
                       {movie.name}
                     </h1>
                     <div className="absolute bottom-2 left-2 flex items-center space-x-1 text-white text-xs md:hidden">
-                    <svg
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                         className="w-5 h-5 text-amber-500"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
                       <p> {movie.actor.name} </p>
@@ -96,16 +143,16 @@ const Movies = () => {
                         className="w-5 h-5 text-amber-500"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
 
                       <p className="text-xs font-semibold">
                         {movie.actor.name}
                       </p>
-                    </div> 
+                    </div>
                   </div>
                 </div>
 
@@ -119,7 +166,7 @@ const Movies = () => {
           </div>
 
           {/* side section popup information */}
-          <div className="h-fit max-h-96 lg:max-h-screen bg-slate-200 rounded-md sticky bottom-0 left-0 lg:top-6 overflow-y-auto mx-4 pr-2 max-w-full lg:max-w-md z-20">
+          <div className="h-fit p-3 lg:max-h-screen bg-slate-200 rounded-md sticky bottom-0 left-0 lg:top-6 mx-4 max-w-full lg:max-w-md z-20">
             {isSelected ? (
               <MovieDesc movieId={isSelected} />
             ) : (
